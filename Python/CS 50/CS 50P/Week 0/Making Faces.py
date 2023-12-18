@@ -1,11 +1,11 @@
 def main():
-    msg = input("Hey, what's up!")
-    print(face(msg))
-    return 0
+    msg = input()
+    result = convert(msg)
+    print(result)
 
-def face(msg):
-    msg1 = msg.replace(":)", '')
-    msg2 = msg1.replace(":(". '')
-    return msg2
+def convert(msg):
+    msg = msg.replace(":)", "🙂")
+    msg = msg.replace(":(", "🙁")
+    return msg
 
 main()

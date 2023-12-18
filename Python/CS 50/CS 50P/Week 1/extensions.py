@@ -1,18 +1,15 @@
-def get_extensions(input):
-    input = input.lower()
-    match input:
-        case input if (input == 'gif') or (input == 'jpg') or (input == 'jpeg') or (input == 'png'):
-            print("image/" + input)
-        case input if (input == 'pdf') or (input == 'zip'):
-            print("application/" + input)
-        case input if input == 'txt':
-            print("text/plain")
-    return 0
-
 def main():
     file = input("File name: ")
-    name, suffix = file.split('.')
-    get_extensions(suffix)
-    return 0
+    split_extension = file.lower().strip().split(".")
+    check_extension(split_extension[-1])
+
+def check_extension(file):
+    if file == "jpg": file = "jpeg"
+    match file:
+        case "gif" | "jpeg" | "png": print(f"image/{file}")
+        case "pdf" | "zip": print(f"application/{file}")
+        case "txt" : print("text/plain")
+        case _: print("application/octet-stream")
+
 
 main()

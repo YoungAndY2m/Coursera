@@ -1,13 +1,10 @@
-def ask_question():
-    ans = input("What is the Answer to the Great Question of Life, the Universe, and Everything? ")
-    match ans:
-        case "42": print('Yes')
-        case "forty-two": print('Yes')
-        case "forty two": print('Yes')
-        case _: print('No')
-
 def main():
-    ask_question()
-    return 0
+    ans = input("What is the Answer to the Great Question of Life, the Universe, and Everything? ")
+    print("Yes" if match_pattern(ans) else "No")
+
+def match_pattern(ans):
+    match ans.lower().strip():
+        case "42" | "forty-two" | "forty two": return True
+        case _: return False
 
 main()
