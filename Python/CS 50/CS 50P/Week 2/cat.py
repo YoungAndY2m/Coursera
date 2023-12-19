@@ -22,6 +22,7 @@
 def main():
     number = get_number()
     meow(number)
+    print(type(range(3))) # return class 'range', NOT list
 
 def get_number():
     while True:

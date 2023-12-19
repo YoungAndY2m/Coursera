@@ -1,21 +1,13 @@
 def main():
-    accepted = [25, 10, 5]
-    due = 50
-    while due != 0:
-        inserted = check_amount(accepted, due)
-        due = insert_money(inserted, due)
-    print("Change Owed:", due)
-    return 0
+    ask_amount()
 
-def check_amount(accepted, due):
-    while True:
-        print("Amount due:", due)
-        inserted = int(input("Insert Coin: "))
-        if inserted in accepted: break
-    return inserted
-
-def insert_money(inserted, due):
-    due = due - inserted
-    return due
+def ask_amount():
+    n = 50
+    while n > 0:
+        print("Amount Due:", n)
+        num = input("Insert Coin: ")
+        if int(num) not in [5, 10, 25]: continue
+        n = n - int(num)
+    print(f"Change Owed: {abs(n)}")
 
 main()
