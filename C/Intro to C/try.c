@@ -46,6 +46,10 @@ void f (int x, int y) {
 }
 
 int main(){
+    int x = 5;
+    double d1 = 11/x;
+    double d2 = 11/(double)x;
+    printf("%f\n", d1-d2);
     printf("%d\n", myFunction(4));
     printf("%d\n", g(3, 0));
     f(-1, 4);
