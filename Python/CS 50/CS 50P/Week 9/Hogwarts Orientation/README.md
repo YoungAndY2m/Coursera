@@ -1,4 +1,4 @@
-# Hogwarts Acceptance Letter Generator
+# Hogwarts Orientation
 
 ![Hogwarts Logo](hogwarts.jpeg)
 
