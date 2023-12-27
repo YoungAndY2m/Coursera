@@ -27,7 +27,7 @@ def main():
     Third part: sort roommates
     """
     roommates = sort_roommates(new_student)
-    roommates_list(roommates)
+    roommates_list(roommates, new_student)
 
 """
 First part: receive the Hogwarts Acceptance Letter
@@ -175,11 +175,11 @@ def sort_roommates(student: Student) -> list:
                 students.append(Student(f"{row['first']} {row['last']}", row['gender'], row['blood'], row['description'], row['house']))
     return students
 
-def roommates_list(students: list) -> None:
+def roommates_list(students: list, current_student: Student) -> None:
     """
     Maximum number is 4
     """
-    names = [student.name for student in students]
+    names = [student.name for student in students if student.name != current_student.name]
     if len(students) == 0:
         print("I'm afraid you won't have any roommates. Enjoy your single room!")
     elif len(students) < 4:
