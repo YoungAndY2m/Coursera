@@ -2,8 +2,8 @@ import sys, re, csv
 from model import Student
 
 GENDER = ["male", "female"]
-HOUSES = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin", "Azkaban", "Unknown"]
-DESCRIPTION = ["bravery", "loyalty", "intelligence", "ambition", "disrespect", "unknown"]
+HOUSES = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin", "Unknown"]
+DESCRIPTION = ["bravery", "loyalty", "intelligence", "ambition","unknown"]
 BLOOD = ["muggle-born", "half-blood", "pure-blood"]
 ROSTER = "roster.csv"
 
@@ -13,9 +13,14 @@ def main():
     """
     # accept invitation
     new_student = accepting_invitation()
+    """
+    Second part: sorting hat
+    """
+    # sorting hat sort the house
+    selected_house = sorting_hat(new_student)
+    change_house(new_student, selected_house)
     # add the student to the roster
     write_coster(new_student, ROSTER)
-
 
 """
 First part: receive the Hogwarts Acceptance Letter
@@ -63,6 +68,54 @@ def ask_property(p: str) -> str:
                 if description.lower().strip() not in DESCRIPTION: continue
                 else: return description.lower().strip()
 
+"""
+Second part: sorting hat
+Based on the student's information, sort the houses
+"""
+def sorting_hat(student: Student) -> str:
+    """
+    Sorting hat picks a house for the student
+    P.S. Like Harry Potter, the student can say no!
+    Extra P.S. The student is automatically sorted to the last house left.
+    """
+    advice = preference(student)
+    idx = 0
+    while idx < len(advice):
+        accept_or_not = input(f"Better be... {advice[idx]}! Do you accept it? (yes or no?)\n")
+        yes_matches = re.search("^(yes|yeah|y).*", accept_or_not, re.IGNORECASE)
+        if yes_matches: return advice[idx]
+        else: 
+            idx += 1
+            continue
+    print(f"I'm afraid you have to go to {advice[-1]} since no option left...")
+    return advice[-1]
+
+def preference(student: Student) -> list:
+    """
+    Provide sorting hat with house preferences 
+    based on student's blood status and description
+    """
+    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+    preference = dict.fromkeys(houses, 0)
+    match student.blood.lower():
+        case "pure-blood": preference["Slytherin"] += 1
+        case _: 
+            preference["Gryffindor"] += 1
+            preference["Hufflepuff"] += 1
+            preference["Ravenclaw"] += 1
+    match student.description.lower():
+        case "bravery": preference["Gryffindor"] += 1
+        case "loyalty": preference["Hufflepuff"] += 1
+        case "intelligence": preference["Ravenclaw"] += 1
+        case "ambition": preference["Slytherin"] += 1
+    # sort the preference based on counting values
+    preference_list = sorted([(value, key) for key, value in preference.items()], reverse=True)
+    # return the sorted houses name for sorting hat to make the decision
+    return [item[1] for item in preference_list]
+
+def change_house(student: Student, house: str) -> None:
+    student.house = house
+
 def write_coster(student: Student, file_path: str) -> None:
     """
     Add the student information to roster.csv
@@ -91,12 +144,6 @@ def read_last_line(file_path):
             return lines[-1].strip()
         else:
             return None
-
-"""
-Second part: sorting hat
-Based on the student's information, sort the houses
-"""
-
 
 """
 Third part: sort roommates

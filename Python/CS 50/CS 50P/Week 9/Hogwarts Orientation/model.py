@@ -3,8 +3,8 @@ Class Student
 :properties: name, gender, blood, description, house
 '''
 class Student:
-    def __init__(self, name: str, gender: str, blood: str ="Unknown", description: str ="Unknown", house: str ="Unknown") -> None:
-        self.name = name
+    def __init__(self, name: str, gender: str="unknown", blood: str ="Unknown", description: str ="Unknown", house: str ="Unknown") -> None:
+        self.name = name.title()
         self.gender = gender
         self.blood = blood
         self.description = description
@@ -53,8 +53,6 @@ class Student:
     
     @house.setter
     def house(self, house) -> None:
-        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin", "Azkaban", "Unknown"]:
-            raise ValueError("Invalid house")
         self._house = house
 
 # print(Student("Yang", "female", "Half-blood", "Bravery", "Gryffindor"))

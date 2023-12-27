@@ -1,4 +1,4 @@
-from project import ask_property, write_coster, read_last_line
+from project import ask_property, write_coster, read_last_line, preference, sorting_hat
 from model import Student
 import pytest, sys
 from pytest import MonkeyPatch as monkeypatch
@@ -35,3 +35,36 @@ def test_write_coster_read_last_line():
     test_student = Student("Yang Alex", "female", "pure-blood", "bravery")
     write_coster(test_student, TEST_ROSTER)
     assert read_last_line(TEST_ROSTER) == "Yang,Alex,Unknown,female,pure-blood,bravery"
+
+def test_write_coster_read_last_line_unknown():
+    test_student = Student("Yang")
+    write_coster(test_student, TEST_ROSTER)
+    assert read_last_line(TEST_ROSTER) == "Yang,Unknown,Unknown,unknown,Unknown,Unknown"
+
+"""
+Tests for preference
+"""
+def test_preference():
+    assert preference(Student("yang alex", "female", "pure-blood", "loyalty")) == ['Slytherin', 'Hufflepuff', 'Ravenclaw', 'Gryffindor']
+    assert preference(Student("yang alex", "male", "muggle-born", "loyalty")) == ['Hufflepuff', 'Ravenclaw', 'Gryffindor', 'Slytherin']
+
+def test_preference_unknown():
+    assert preference(Student("yang alex")) == ['Ravenclaw', 'Hufflepuff', 'Gryffindor', 'Slytherin']
+
+"""
+Tests for sorting_hat
+"""
+def test_sorting_hat(monkeypatch: monkeypatch):
+    monkeypatch.setattr('builtins.input', lambda _: "Yes, of course!")
+    result = sorting_hat(Student("yang li", "female", "pure-blood", "loyalty"))
+    assert result == "Slytherin"
+
+def test_sorting_hat_all_nos(monkeypatch: monkeypatch):
+    no_inputs = ["no", "no", "no", "no"]
+
+    def mock_input(prompt):
+        return no_inputs.pop(0)
+    
+    monkeypatch.setattr('builtins.input', mock_input)
+    result = sorting_hat(Student("yang li", "female", "pure-blood", "loyalty"))
+    assert result == "Gryffindor"
