@@ -1,6 +1,6 @@
-from project import ask_property, write_coster, read_last_line, preference, sorting_hat
+from project import ask_property, write_coster, read_last_line, preference, sorting_hat, sort_roommates, roommates_list
 from model import Student
-import pytest, sys
+import pytest
 from pytest import MonkeyPatch as monkeypatch
 
 TEST_ROSTER = "test_roster.csv"
@@ -68,3 +68,16 @@ def test_sorting_hat_all_nos(monkeypatch: monkeypatch):
     monkeypatch.setattr('builtins.input', mock_input)
     result = sorting_hat(Student("yang li", "female", "pure-blood", "loyalty"))
     assert result == "Gryffindor"
+
+"""
+Tests for sort_roommates
+"""
+def test_sort_roommates():
+    students_female = sort_roommates(Student("yang alex", "female", "pure-blood", "loyalty", "Hufflepuff"))
+    assert len(students_female) == 3
+    students_male = sort_roommates(Student("yang alex", "male", "pure-blood", "loyalty", "Hufflepuff"))
+    assert len(students_male) == 5
+
+def test_sort_roommates_none():
+    students_female = sort_roommates(Student("yang alex"))
+    assert len(students_female) == 0

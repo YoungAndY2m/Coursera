@@ -1,4 +1,5 @@
-import sys, re, csv
+import re, csv, random
+import inflect
 from model import Student
 
 GENDER = ["male", "female"]
@@ -6,6 +7,7 @@ HOUSES = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin", "Unknown"]
 DESCRIPTION = ["bravery", "loyalty", "intelligence", "ambition","unknown"]
 BLOOD = ["muggle-born", "half-blood", "pure-blood"]
 ROSTER = "roster.csv"
+P = inflect.engine()
 
 def main():
     """
@@ -21,6 +23,11 @@ def main():
     change_house(new_student, selected_house)
     # add the student to the roster
     write_coster(new_student, ROSTER)
+    """
+    Third part: sort roommates
+    """
+    roommates = sort_roommates(new_student)
+    roommates_list(roommates)
 
 """
 First part: receive the Hogwarts Acceptance Letter
@@ -31,6 +38,7 @@ def accepting_invitation() -> Student:
     Ask for student's name, gender, blood, and description
     Return the new_student
     """
+    # narratives
     print("An owl just landed and tapped on your window.")
     # ask for name
     name = ask_property("name")
@@ -78,6 +86,11 @@ def sorting_hat(student: Student) -> str:
     P.S. Like Harry Potter, the student can say no!
     Extra P.S. The student is automatically sorted to the last house left.
     """
+    # narratives
+    print("(OvO): Let's go to Hogwarts~~~")
+    print("After the train......boat.....You are standing in front of the sorting hat")
+    print(f"🎩: Hello, {student.name}! Let me see what's inside you...")
+    # get preference from previous student information
     advice = preference(student)
     idx = 0
     while idx < len(advice):
@@ -147,8 +160,35 @@ def read_last_line(file_path):
 
 """
 Third part: sort roommates
-Based on the student's gender and/or personal choice, sort the roommates
+Based on the student's gender, sort the roommates
 """
+def sort_roommates(student: Student) -> list:
+    """
+    Roommates must have the same gender & house
+    """
+    students = []
+    with open(ROSTER, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row["house"] != student.house or row["gender"] != student.gender: continue
+            else:
+                students.append(Student(f"{row['first']} {row['last']}", row['gender'], row['blood'], row['description'], row['house']))
+    return students
+
+def roommates_list(students: list) -> None:
+    """
+    Maximum number is 4
+    """
+    names = [student.name for student in students]
+    if len(students) == 0:
+        print("I'm afraid you won't have any roommates. Enjoy your single room!")
+    elif len(students) < 4:
+        output = P.join(names)
+        print(f"Your roommates are going to be - {output}")
+    else:
+        random.shuffle(names)
+        output = P.join(names[0:3])
+        print(f"Your roommates are going to be - {output}")
 
 
 if __name__ == "__main__":
