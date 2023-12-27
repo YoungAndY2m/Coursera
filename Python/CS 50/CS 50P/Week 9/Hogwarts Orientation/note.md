@@ -10,7 +10,7 @@ The Hogwarts Orientation is a Python program that simulates the process of recei
 
 ### 1. Accepting Invitation
 
-- **Function**: `accepting_invitation()`
+- **Function**: `accepting_invitation() -> Student`
 - **Description**: This function asks the user for their name, gender, blood status, and description to create a new student.
 
 ### 2. Sorting Hat Ceremony
@@ -69,4 +69,4 @@ To use the Hogwarts Acceptance Letter Generator, follow these steps:
 ## Author
 
 - Author: Yang Li
-- GitHub: [[Your GitHub Profile]](https://github.com/YoungAndY2m)
+- GitHub: [[Yang Li's GitHub Profile]](https://github.com/YoungAndY2m)
