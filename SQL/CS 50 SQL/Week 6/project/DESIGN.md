@@ -7,7 +7,7 @@ By Yang Li
 - Date recorded: 2023-12-30
 
 
-Video overview: <URL HERE>
+Video overview: [<URL HERE>](https://www.youtube.com/watch?v=Mz5TcSViY5E)
 
 ## Scope
 
